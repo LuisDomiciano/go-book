@@ -6,7 +6,8 @@ import (
 )
 
 func (app *application) bookHandler(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintln(w, "status: avaliable")
-		fmt.Fprintf(w, "environment: %s\n", app.config.env)
-		fmt.Fprintf(w, "version: %s\n", version)
+	js := `{"status": "avaliable", "environment": %q, "version": %q}`
+	js = fmt.Sprintf(js, app.config.env, version)
+	w.Header().Set("Content-Type", "application/json")
+	w.Write([]byte(js))
 }
